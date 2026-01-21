@@ -1,426 +1,228 @@
 
+---
 
 ```markdown
+# NLP CLI Tool – Text Classification Pipeline
 
-\# NLP Classification CLI Tool
-
-
-
-This project is a \*\*Command-Line Interface (CLI) tool\*\* that implements a complete
-
+This project is a **Command-Line Interface (CLI) tool** that implements a complete
 Natural Language Processing (NLP) pipeline for text classification.
 
-
-
-The tool is \*\*generic\*\*, \*\*modular\*\*, and \*\*language-agnostic\*\*, meaning it can be
-
-applied to \*\*any CSV dataset\*\* containing text and labels (Arabic, English, or mixed).
-
-
+The tool is **generic**, **modular**, and **language-agnostic**, meaning it can be
+applied to **any CSV dataset** containing text and labels (Arabic, English, or mixed).
 
 ---
 
-
-
-\## Pipeline Overview
-
-
+ Pipeline Overview
 
 The NLP workflow consists of the following stages:
 
-
-
 EDA → Preprocessing → Embedding → Training
 
-
-
-Each stage can be executed \*\*individually\*\* or \*\*all at once\*\* using a one-line pipeline command.
-
-
+Each stage can be executed **individually** or **automatically** using a
+**one-line pipeline command**.
 
 ---
 
-
-
-\## Project Structure
-
-
+ Project Structure
 
 ```
-
-
 
 nlp-cli-tool/
-
 ├── main.py
-
 ├── commands/
-
 │   ├── eda.py
-
 │   ├── preprocessing.py
-
 │   ├── embedding.py
-
 │   └── training.py
-
 ├── outputs/
-
 │   ├── embeddings/
-
 │   ├── models/
-
 │   ├── reports/
-
 │   └── visualizations/
-
 ├── requirements.txt
-
 └── README.md
 
-
-
 ````
-
-
 
 ---
 
+ Setup Instructions (Windows / PowerShell)
 
-
-\## Setup Instructions
-
-
-
-\### 1) Install Dependencies
-
-```bash
-
+  1) Install Dependencies
+```powershell
 pip install -r requirements.txt
-
 ````
 
+### 2) Verify CLI Commands
 
-
-\### 2) Verify CLI Commands
-
-
-
-```bash
-
+```powershell
 python main.py --help
-
 ```
 
-
-
 ---
 
+## Dataset Requirements
 
+The dataset must be a **CSV file** containing:
 
-\## Dataset Requirements
-
-
-
-The dataset must be a \*\*CSV file\*\* containing:
-
-
-
-\* A \*\*text column\*\* (e.g., `text`, `review`, `content`)
-
-\* A \*\*label column\*\* (e.g., `label`, `sentiment`, `category`)
-
-
+* A **text column** (e.g., `text`, `review`, `content`)
+* A **label column** (e.g., `label`, `sentiment`, `category`)
 
 Column names are configurable through CLI options.
 
-
-
 ---
 
+## Step-by-Step Execution
 
+1- Exploratory Data Analysis (EDA)
 
-\## Step-by-Step Execution
-
-
-
-\## 1- Exploratory Data Analysis (EDA)
-
-
-
-\### Class Distribution
-
-
+ Class Distribution
 
 ```powershell
-
-python main.py eda distribution --csv\_path data.csv --label\_col label
-
+python main.py eda distribution --csv_path data.csv --label_col label
 ```
 
-
-
-\### Text Length Histogram
-
-
+ Text Length Histogram
 
 ```powershell
-
-python main.py eda histogram --csv\_path data.csv --text\_col text --unit words
-
+python main.py eda histogram --csv_path data.csv --text_col text --unit words
 ```
 
-
-
-\### Remove Outliers (Bonus Feature)
-
-
+ Remove Outliers (Bonus Feature)
 
 ```powershell
-
-python main.py eda remove-outliers --csv\_path data.csv --text\_col text --unit words --output data\_no\_outliers.csv
-
+python main.py eda remove-outliers --csv_path data.csv --text_col text --unit words --output data_no_outliers.csv
 ```
-
-
 
 Outputs:
 
-
-
-\* Visualizations saved in `outputs/visualizations/`
-
-\* Statistics printed in the console
-
-
+* Visualizations saved in `outputs/visualizations/`
+* Statistics printed in the console
 
 ---
 
+2- Preprocessing
 
-
-\## 2- Preprocessing
-
-
-
-\### Remove Unwanted Characters
-
-
+### Remove Unwanted Characters
 
 ```powershell
-
-python main.py preprocess remove --csv\_path data.csv --text\_col text --output cleaned.csv
-
+python main.py preprocess remove --csv_path data.csv --text_col text --output cleaned.csv
 ```
 
-
-
-\### Remove Arabic Stopwords
-
-
+ Remove Arabic Stopwords
 
 ```powershell
-
-python main.py preprocess stopwords --csv\_path cleaned.csv --text\_col text --output no\_stops.csv
-
+python main.py preprocess stopwords --csv_path cleaned.csv --text_col text --output no_stops.csv
 ```
 
-
-
-\### Normalize Arabic Text
-
-
+### Normalize Arabic Text
 
 ```powershell
-
-python main.py preprocess replace --csv\_path no\_stops.csv --text\_col text --output normalized.csv
-
+python main.py preprocess replace --csv_path no_stops.csv --text_col text --output normalized.csv
 ```
-
-
 
 Outputs:
 
-
-
-\* `cleaned.csv`
-
-\* `no\_stops.csv`
-
-\* `normalized.csv`
-
-
+* `cleaned.csv`
+* `no_stops.csv`
+* `normalized.csv`
 
 ---
 
-
-
-\## 3- Embedding (TF-IDF)
-
-
+ 3️- Embedding (TF-IDF)
 
 ```powershell
-
-python main.py embed tfidf --csv\_path normalized.csv --text\_col text --max\_features 5000 --output outputs/embeddings/tfidf\_vectors.pkl
-
+python main.py embed tfidf --csv_path normalized.csv --text_col text --max_features 5000 --output outputs/embeddings/tfidf_vectors.pkl
 ```
-
-
 
 Outputs:
 
-
-
-\* TF-IDF embeddings saved as a pickle file
-
-\* Embedding matrix shape printed in the console
-
-
+* TF-IDF embeddings saved as a pickle file
+* Embedding matrix shape printed in the console
 
 ---
 
-
-
-\## 4- Training \& Evaluation
-
-
+4- Training & Evaluation
 
 Supported models:
 
-
-
-\* K-Nearest Neighbors (KNN)
-
-\* Logistic Regression (LR)
-
-\* Random Forest (RF)
-
-
+* K-Nearest Neighbors (KNN)
+* Logistic Regression (LR)
+* Random Forest (RF)
 
 ```powershell
-
-python main.py train --csv\_path normalized.csv --input\_col outputs/embeddings/tfidf\_vectors.pkl --output\_col label --models knn --models lr --models rf
-
+python main.py train --csv_path normalized.csv --input_col outputs/embeddings/tfidf_vectors.pkl --output_col label --models knn --models lr --models rf
 ```
-
-
 
 Outputs:
 
-
-
-\* Training report (`.md`) saved in `outputs/reports/`
-
-\* Confusion matrix images saved in `outputs/visualizations/`
-
-\* Best-performing model printed in the console
-
-
+* Training report (`.md`) saved in `outputs/reports/`
+* Confusion matrix images saved in `outputs/visualizations/`
+* Best-performing model printed in the console
 
 ---
 
+ One-Line Pipeline Command (Bonus Feature)
 
-
-\## One-Line Pipeline Command (Bonus Feature)
-
-
-
-The entire NLP workflow can be executed using \*\*a single command\*\*:
-
-
+The entire NLP workflow can be executed using **a single PowerShell command**:
 
 ```powershell
-
-python main.py pipeline --csv\_path data\_no\_outliers.csv --text\_col text --label\_col label
-
+python main.py pipeline --csv_path data_no_outliers.csv --text_col text --label_col label
 ```
 
+ This command automatically performs:
 
-
-\### This command performs:
-
-
-
-1\. Text preprocessing (remove → stopwords → normalization)
-
-2\. TF-IDF embedding
-
-3\. Model training and evaluation
-
-
+1. Text preprocessing (remove → stopwords → normalization)
+2. TF-IDF embedding
+3. Model training and evaluation
 
 This improves reproducibility and reduces manual errors.
 
+---
 
+ Language Support
+
+* Supports Arabic, English, and **mixed-language datasets
+* TF-IDF embedding and machine learning models are language-independent
+* Arabic-specific preprocessing is applied safely
+* English text passes through unchanged
 
 ---
 
-
-
-\## Language Support
-
-
-
-\* Supports \*\*Arabic\*\*, \*\*English\*\*, and \*\*mixed-language datasets\*\*
-
-\* TF-IDF embedding and machine learning models are language-independent
-
-\* Arabic-specific preprocessing is applied safely
-
-\* English text passes through unchanged
-
-
-
----
-
-
-
-\## Output Summary
-
-
+ Outputs Summary
 
 | Output              | Location                  |
-
 | ------------------- | ------------------------- |
-
 | Processed CSV files | `outputs/pipeline/`       |
-
 | Embeddings          | `outputs/embeddings/`     |
-
 | Confusion matrices  | `outputs/visualizations/` |
-
 | Training reports    | `outputs/reports/`        |
-
 | Best model          | Printed in console        |
-
-
 
 ---
 
+ Video Demonstration
 
+A screen-recorded video demonstration is provided showing:
 
-\## Conclusion
+* Running EDA commands
+* Preprocessing steps
+* Embedding generation
+* Model training
+* One-line pipeline execution
 
+The video demonstrates that the project runs end-to-end without errors.
 
+---
+
+ Conclusion
 
 This project demonstrates a complete, reusable NLP classification pipeline
-
 implemented as a professional CLI tool.
 
-
-
 The system is configurable, extensible, and suitable for academic coursework
-
-as well as real-world NLP experiments.
-
-
+and real-world NLP experimentation.
 
 ```
 
-
-
 ---
-
-
-
-
-
