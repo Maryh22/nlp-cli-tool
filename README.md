@@ -201,28 +201,4 @@ This improves reproducibility and reduces manual errors.
 
 ---
 
- Video Demonstration
 
-A screen-recorded video demonstration is provided showing:
-
-* Running EDA commands
-* Preprocessing steps
-* Embedding generation
-* Model training
-* One-line pipeline execution
-
-The video demonstrates that the project runs end-to-end without errors.
-
----
-
- Conclusion
-
-This project demonstrates a complete, reusable NLP classification pipeline
-implemented as a professional CLI tool.
-
-The system is configurable, extensible, and suitable for academic coursework
-and real-world NLP experimentation.
-
-```
-
----
